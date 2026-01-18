@@ -1,172 +1,93 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <div class="carousel" id="carousel">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-    }
+<title>Carrusel</title>
 
-    .wrap {
-      width: 100%;
-      overflow: hidden;
-      touch-action: pan-y;
-    }
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+}
 
-    .carousel {
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      transition: height 0.4s ease;
-    }
+.carousel{
+  width:100%;
+  position:relative;
+  overflow:hidden;
+}
 
-    .slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+.slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .8s ease;
+}
 
-    .slide.active {
-      opacity: 1;
-      position: relative;
-    }
+.slide.active{
+  opacity:1;
+  position:relative;
+}
 
-    .slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+.slide img{
+  width:100%;
+  height:auto;
+  display:block;
+}
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      font-size: 30px;
-      padding: 10px 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      user-select: none;
-      z-index: 2;
-    }
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  font-size:28px;
+  padding:10px 16px;
+  cursor:pointer;
+  user-select:none;
+  border-radius:50%;
+  z-index:5;
+}
 
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
-  </style>
+.arrow.left{left:12px;}
+.arrow.right{right:12px;}
+</style>
 </head>
 
 <body>
-  <div class="wrap" id="wrap">
-    <div class="carousel" id="carousel">
 
-      <div class="slide active">
-        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
-      </div>
+<div class="carousel" id="carousel">
 
-      <div class="slide">
-        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
-      </div>
-
-      <div class="slide">
-        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
-      </div>
-
-      <div class="arrow left" onclick="prev()">‹</div>
-      <div class="arrow right" onclick="next()">›</div>
-
-    </div>
+  <div class="slide active">
+    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
   </div>
 
-  <script>
-    let index = 0;
-    const slides = document.querySelectorAll(".slide");
-    const carousel = document.getElementById("carousel");
-    const total = slides.length;
+  <div class="slide">
+    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
+  </div>
 
-    let startX = 0;
-    let diffX = 0;
+  <div class="slide">
+    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
+  </div>
 
-    let autoTimer = null;
-    const AUTO_DELAY = 4000;
-    const RESUME_DELAY = 5000;
+  <div class="arrow left" onclick="prev()">‹</div>
+  <div class="arrow right" onclick="next()">›</div>
 
-    function adjustHeight() {
-      const img = slides[index].querySelector("img");
-      if (img.complete) {
-        carousel.style.height = img.offsetHeight + "px";
-      } else {
-        img.onload = () => {
-          carousel.style.height = img.offsetHeight + "px";
-        };
-      }
-    }
+</div>
 
-    function show(i) {
-      slides.forEach(s => s.classList.remove("active"));
-      slides[i].classList.add("active");
-      adjustHeight();
-    }
+<script>
+let index=0;
+const slides=document.querySelectorAll(".slide");
+const total=slides.length;
 
-    function next() {
-      index = (index + 1) % total;
-      show(index);
-    }
+let auto=null;
+const DELAY=4000;
+const RESUME=5000;
 
-    function prev() {
-      index = (index - 1 + total) % total;
-      show(index);
-    }
-
-    function startAuto() {
-      stopAuto();
-      autoTimer = setInterval(next, AUTO_DELAY);
-    }
-
-    function stopAuto() {
-      if (autoTimer) clearInterval(autoTimer);
-    }
-
-    function resumeAuto() {
-      stopAuto();
-      setTimeout(startAuto, RESUME_DELAY);
-    }
-
-    startAuto();
-    adjustHeight();
-
-    const wrap = document.getElementById("wrap");
-
-    wrap.addEventListener("touchstart", e => {
-      stopAuto();
-      startX = e.touches[0].clientX;
-    });
-
-    wrap.addEventListener("touchmove", e => {
-      diffX = e.touches[0].clientX - startX;
-    });
-
-    wrap.addEventListener("touchend", () => {
-      if (diffX > 50) prev();
-      else if (diffX < -50) next();
-      diffX = 0;
-      resumeAuto();
-    });
-
-    wrap.addEventListener("mouseenter", stopAuto);
-    wrap.addEventListener("mouseleave", resumeAuto);
-
-    window.addEventListener("resize", adjustHeight);
-    <script>
-function resize() <script>function sendHeight(){var a=document.querySelector(".slide.active img");if(a){parent.postMessage({iframeHeight:a.getBoundingClientRect().height},"*");}}window.addEventListener("load",sendHeight);window.addEventListener("resize",sendHeight);setInterval(sendHeight,500);</script>
-
-</script>
-
-  </script>
-</body>
-</html>
+function show(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  slides[i].classList.add("active");
+  sendHeight();
+}
