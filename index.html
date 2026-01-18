@@ -1,1 +1,136 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;width:100%}.wrap{width:100%;aspect-ratio:16/9;max-height:90vh;touch-action:pan-y}.carousel{width:100%;height:100%;overflow:hidden;position:relative}.slides{display:flex;width:300%;height:100%;transition:transform .6s ease}.slides img{width:100%;height:100%;object-fit:cover;flex-shrink:0}.arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:30px;padding:10px 16px;cursor:pointer;border-radius:50%;user-select:none}.left{left:10px}.right{right:10px}</style></head><body><div class="wrap" id="wrap"><div class="carousel"><div class="slides" id="s"><img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png"><img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png"><img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png"></div><div class="arrow left" onclick="p()">‹</div><div class="arrow right" onclick="n()">›</div></div></div><script>let i=0,s=document.getElementById("s"),t=s.children.length,startX=0,dx=0,auto=setInterval(n,4000);function sh(){s.style.transform="translateX("+(-i*100)+"%)"}function n(){i=(i+1)%t;sh()}function p(){i=(i-1+t)%t;sh()}const w=document.getElementById("wrap");w.addEventListener("touchstart",e=>{clearInterval(auto);startX=e.touches[0].clientX});w.addEventListener("touchmove",e=>{dx=e.touches[0].clientX-startX});w.addEventListener("touchend",()=>{if(dx>50)p();else if(dx<-50)n();dx=0;auto=setInterval(n,4000)});</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+    }
+
+    .wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 80vh;
+      background: #000;
+      touch-action: pan-y;
+    }
+
+    .carousel {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 30px;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none;
+      z-index: 2;
+    }
+
+    .arrow.left {
+      left: 10px;
+    }
+
+    .arrow.right {
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <div class="carousel">
+
+      <div class="slide active">
+        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
+      </div>
+
+      <div class="slide">
+        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
+      </div>
+
+      <div class="slide">
+        <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
+      </div>
+
+      <div class="arrow left" onclick="prev()">‹</div>
+      <div class="arrow right" onclick="next()">›</div>
+
+    </div>
+  </div>
+
+  <script>
+    let index = 0;
+    const slides = document.querySelectorAll(".slide");
+    const total = slides.length;
+    let startX = 0;
+    let diffX = 0;
+
+    let auto = setInterval(next, 4000);
+
+    function show(i) {
+      slides.forEach(s => s.classList.remove("active"));
+      slides[i].classList.add("active");
+    }
+
+    function next() {
+      index = (index + 1) % total;
+      show(index);
+    }
+
+    function prev() {
+      index = (index - 1 + total) % total;
+      show(index);
+    }
+
+    const wrap = document.getElementById("wrap");
+
+    wrap.addEventListener("touchstart", e => {
+      clearInterval(auto);
+      startX = e.touches[0].clientX;
+    });
+
+    wrap.addEventListener("touchmove", e => {
+      diffX = e.touches[0].clientX - startX;
+    });
+
+    wrap.addEventListener("touchend", () => {
+      if (diffX > 50) prev();
+      else if (diffX < -50) next();
+      diffX = 0;
+      auto = setInterval(next, 4000);
+    });
+  </script>
+</body>
+</html>
