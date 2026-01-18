@@ -161,6 +161,15 @@
     wrap.addEventListener("mouseleave", resumeAuto);
 
     window.addEventListener("resize", adjustHeight);
+    <script>
+function resize() {
+  const h = document.body.scrollHeight;
+  parent.postMessage({ iframeHeight: h }, "*");
+}
+window.addEventListener("load", resize);
+window.addEventListener("resize", resize);
+</script>
+
   </script>
 </body>
 </html>
