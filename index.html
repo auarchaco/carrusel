@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <div class="carousel" id="carousel">
 
   <style>
     html, body {
@@ -162,12 +163,8 @@
 
     window.addEventListener("resize", adjustHeight);
     <script>
-function resize() {
-  const h = document.body.scrollHeight;
-  parent.postMessage({ iframeHeight: h }, "*");
-}
-window.addEventListener("load", resize);
-window.addEventListener("resize", resize);
+function resize() <script>function sendHeight(){var a=document.querySelector(".slide.active img");if(a){parent.postMessage({iframeHeight:a.getBoundingClientRect().height},"*");}}window.addEventListener("load",sendHeight);window.addEventListener("resize",sendHeight);setInterval(sendHeight,500);</script>
+
 </script>
 
   </script>
