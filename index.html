@@ -12,15 +12,12 @@
 
     .wrap {
       width: 100%;
-      aspect-ratio: 16 / 9;
-      max-height: 60vh;
       overflow: hidden;
       touch-action: pan-y;
     }
 
     .carousel {
       width: 100%;
-      height: 100%;
       position: relative;
       overflow: hidden;
     }
@@ -34,13 +31,13 @@
 
     .slide.active {
       opacity: 1;
-      z-index: 1;
+      position: relative;
     }
 
     .slide img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
     }
 
     .arrow {
@@ -125,12 +122,10 @@
       setTimeout(startAuto, RESUME_DELAY);
     }
 
-    // iniciar autoplay
     startAuto();
 
     const wrap = document.getElementById("wrap");
 
-    // swipe táctil
     wrap.addEventListener("touchstart", e => {
       stopAuto();
       startX = e.touches[0].clientX;
@@ -147,9 +142,9 @@
       resumeAuto();
     });
 
-    // desktop: pausa al hover
     wrap.addEventListener("mouseenter", stopAuto);
     wrap.addEventListener("mouseleave", resumeAuto);
   </script>
 </body>
 </html>
+
