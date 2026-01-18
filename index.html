@@ -13,8 +13,8 @@
     .wrap {
       width: 100%;
       aspect-ratio: 16 / 9;
-      max-height: 80vh;
-      background: #000;
+      max-height: 60vh;
+      overflow: hidden;
       touch-action: pan-y;
     }
 
@@ -40,8 +40,7 @@
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      background: #000;
+      object-fit: cover;
     }
 
     .arrow {
@@ -58,13 +57,8 @@
       z-index: 2;
     }
 
-    .arrow.left {
-      left: 10px;
-    }
-
-    .arrow.right {
-      right: 10px;
-    }
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
   </style>
 </head>
 
@@ -94,10 +88,13 @@
     let index = 0;
     const slides = document.querySelectorAll(".slide");
     const total = slides.length;
+
     let startX = 0;
     let diffX = 0;
 
-    let auto = setInterval(next, 4000);
+    let autoTimer = null;
+    const AUTO_DELAY = 4000;
+    const RESUME_DELAY = 5000;
 
     function show(i) {
       slides.forEach(s => s.classList.remove("active"));
@@ -114,10 +111,28 @@
       show(index);
     }
 
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(next, AUTO_DELAY);
+    }
+
+    function stopAuto() {
+      if (autoTimer) clearInterval(autoTimer);
+    }
+
+    function resumeAuto() {
+      stopAuto();
+      setTimeout(startAuto, RESUME_DELAY);
+    }
+
+    // iniciar autoplay
+    startAuto();
+
     const wrap = document.getElementById("wrap");
 
+    // swipe táctil
     wrap.addEventListener("touchstart", e => {
-      clearInterval(auto);
+      stopAuto();
       startX = e.touches[0].clientX;
     });
 
@@ -129,8 +144,12 @@
       if (diffX > 50) prev();
       else if (diffX < -50) next();
       diffX = 0;
-      auto = setInterval(next, 4000);
+      resumeAuto();
     });
+
+    // desktop: pausa al hover
+    wrap.addEventListener("mouseenter", stopAuto);
+    wrap.addEventListener("mouseleave", resumeAuto);
   </script>
 </body>
 </html>
