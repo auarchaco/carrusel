@@ -20,6 +20,7 @@
       width: 100%;
       position: relative;
       overflow: hidden;
+      transition: height 0.4s ease;
     }
 
     .slide {
@@ -61,7 +62,7 @@
 
 <body>
   <div class="wrap" id="wrap">
-    <div class="carousel">
+    <div class="carousel" id="carousel">
 
       <div class="slide active">
         <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png">
@@ -84,6 +85,7 @@
   <script>
     let index = 0;
     const slides = document.querySelectorAll(".slide");
+    const carousel = document.getElementById("carousel");
     const total = slides.length;
 
     let startX = 0;
@@ -93,9 +95,21 @@
     const AUTO_DELAY = 4000;
     const RESUME_DELAY = 5000;
 
+    function adjustHeight() {
+      const img = slides[index].querySelector("img");
+      if (img.complete) {
+        carousel.style.height = img.offsetHeight + "px";
+      } else {
+        img.onload = () => {
+          carousel.style.height = img.offsetHeight + "px";
+        };
+      }
+    }
+
     function show(i) {
       slides.forEach(s => s.classList.remove("active"));
       slides[i].classList.add("active");
+      adjustHeight();
     }
 
     function next() {
@@ -123,6 +137,7 @@
     }
 
     startAuto();
+    adjustHeight();
 
     const wrap = document.getElementById("wrap");
 
@@ -144,7 +159,8 @@
 
     wrap.addEventListener("mouseenter", stopAuto);
     wrap.addEventListener("mouseleave", resumeAuto);
+
+    window.addEventListener("resize", adjustHeight);
   </script>
 </body>
 </html>
-
