@@ -65,17 +65,20 @@ html,body{
 
 <div class="carousel" id="carousel">
 
-  <div class="slide active">
-    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png" alt="">
-  </div>
-
-  <div class="slide">
-    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png" alt="">
-  </div>
-
-  <div class="slide">
-    <img src="https://img.colombiaemprendedora.com/images/2025/07/21/57-2.png" alt="">
-  </div>
+  <div class="slide active"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/17.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/16.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/14.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/13.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/12.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/11.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/10.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/9.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/8.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/7.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/5.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/4.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/3.png" alt=""></div>
+  <div class="slide"><img src="https://img.colombiaemprendedora.com/images/2025/02/13/2.png" alt=""></div>
 
   <div class="arrow left" onclick="prev()">‹</div>
   <div class="arrow right" onclick="next()">›</div>
@@ -86,7 +89,6 @@ html,body{
 let index=0;
 const slides=document.querySelectorAll(".slide");
 const total=slides.length;
-
 let auto=setInterval(next,4000);
 
 function show(i){
@@ -109,4 +111,26 @@ let startX=0;
 let diff=0;
 const car=document.getElementById("carousel");
 
-car.addEventListener("to
+car.addEventListener("touchstart",e=>{
+  clearInterval(auto);
+  startX=e.touches[0].clientX;
+});
+
+car.addEventListener("touchmove",e=>{
+  diff=e.touches[0].clientX-startX;
+});
+
+car.addEventListener("touchend",()=>{
+  if(diff>50) prev();
+  if(diff<-50) next();
+  diff=0;
+  auto=setInterval(next,4000);
+});
+
+/* pause hover */
+car.addEventListener("mouseenter",()=>clearInterval(auto));
+car.addEventListener("mouseleave",()=>auto=setInterval(next,4000));
+</script>
+
+</body>
+</html>
